@@ -1,0 +1,4 @@
+public/build
+api/index.*
+node_modules
+.vercel

@@ -1,13 +1,14 @@
-import path from 'path'
-import fs from 'fs/promises'
-import YAML from 'yaml'
-import { getPlaiceholder } from 'plaiceholder'
+import fs from 'fs'
+import * as path from 'path'
 import { map } from 'ramda'
+import { getPlaiceholder } from 'plaiceholder'
 
 import globalEnv from '~/config.server'
 import { renderExcerpt } from './markdown.server'
 
-export const dataDir = path.join(process.cwd(), 'data')
+import contentMetadata from './content.server'
+
+const importGot = import('got').then(m => m.default)
 
 export const mapPromise = <T, U>(
   fn: (val: T) => Promise<U>,
@@ -18,9 +19,7 @@ export const mapPromise = <T, U>(
 }
 
 export const getMetaData = async () => {
-  const metadataFile = path.join(dataDir, 'metadata.yml')
-  const metadata = await fs.readFile(metadataFile, 'utf8')
-  return YAML.parse(metadata) as ContentMetadata
+  return contentMetadata as ContentMetadata
 }
 
 export const getImages = async <T extends { cover: Maybe<string> }>(
@@ -31,19 +30,22 @@ export const getImages = async <T extends { cover: Maybe<string> }>(
   if (cover == null) {
     return { cover, placeholderImage, ogCover: undefined }
   }
-  const { base64 } = await getPlaiceholder(cover)
+  const coverUrl = `${globalEnv.PUBLIC_URL}${cover}`
+
+  const { base64 } = await getPlaiceholder(
+    await (await importGot)(coverUrl).buffer()
+  )
   placeholderImage = base64
   const ogCover = `${globalEnv.PUBLIC_URL}/og${cover}`
-  return { cover, placeholderImage, ogCover }
+  return { cover: coverUrl, placeholderImage, ogCover }
 }
 
 export const getEntryExcerpt = async <T extends { file: string }>(
   entry: T,
-  contentType: ContentType,
   length = 155
 ) => {
-  const markdown = await fs.readFile(
-    path.join(dataDir, contentType, entry.file),
+  const markdown = fs.readFileSync(
+    path.resolve(process.cwd(), entry.file),
     'utf8'
   )
   return renderExcerpt(markdown, length)

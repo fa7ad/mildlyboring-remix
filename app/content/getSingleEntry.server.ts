@@ -1,9 +1,9 @@
-import path from 'path'
-import fs from 'fs/promises'
+import fs from 'fs'
+import * as path from 'path'
 import dayjs from 'dayjs'
 
 import renderMarkdown from './markdown.server'
-import { dataDir, getImages } from './metadata.server'
+import { getImages } from './metadata.server'
 import { getAllEntries } from './getAllEntries.server'
 
 export async function getSingleEntry(contentType: ContentType, slug: string) {
@@ -13,9 +13,13 @@ export async function getSingleEntry(contentType: ContentType, slug: string) {
     if (entry == null) {
       return null
     }
-    const filePath = path.join(dataDir, contentType, entry.file)
-    const entryData = await fs.readFile(filePath, 'utf8')
-    const date = entry?.date ? dayjs(entry.date).format('dddd, MMMM D, YYYY HH:mm') : null
+    const entryData = fs.readFileSync(
+      path.resolve(process.cwd(), entry.file),
+      'utf8'
+    )
+    const date = entry?.date
+      ? dayjs(entry.date).format('dddd, MMMM D, YYYY HH:mm')
+      : null
     const { cover, ogCover, placeholderImage } = await getImages(entry)
     return {
       ...entry,

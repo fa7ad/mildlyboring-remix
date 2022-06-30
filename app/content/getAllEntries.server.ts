@@ -28,7 +28,7 @@ export async function getAllEntries(contentType: ContentType) {
     )
     const withExcerpt = assoc(
       'excerpt',
-      await getEntryExcerpt(withSeries, contentType, 245),
+      await getEntryExcerpt(withSeries, 245),
       withSeries
     )
     return withExcerpt as Entry

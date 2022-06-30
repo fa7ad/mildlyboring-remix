@@ -1,5 +1,12 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration
+} from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import { Provider } from 'react-redux'
 
@@ -25,7 +32,8 @@ export const meta: MetaFunction = () => ({
   'msapplication-config': '/icons/browserconfig.xml?v=1.0.0',
   'theme-color': '#ffffff',
   author: 'Fahad Hossain',
-  keywords: 'programming,tutorial,functional,blog,rants,mildlyboring,fa7ad,fahad,hossain'
+  keywords:
+    'programming,tutorial,functional,blog,rants,mildlyboring,fa7ad,fahad,hossain'
 })
 
 export const links: LinksFunction = () => [
