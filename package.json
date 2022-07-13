@@ -15,7 +15,8 @@
     "devcss:tail": "tailwindcss -o ./app/styles/tailwind.global.css --watch",
     "devcss:post": "postcss styles --base styles --dir app/styles -w",
     "buildcss:tail": "tailwindcss -o ./app/styles/tailwind.global.css --minify",
-    "buildcss:post": "postcss styles --base styles --dir app/styles --env production"
+    "buildcss:post": "postcss styles --base styles --dir app/styles --env production",
+    "update-deps": "./.bin/update_deps.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",

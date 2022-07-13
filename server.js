@@ -2,7 +2,6 @@ const path = require('path')
 const morgan = require('morgan')
 const express = require('express')
 const compression = require('compression')
-// const { default: helmet } = require('helmet')
 const { createRequestHandler } = require('@remix-run/express')
 
 const BUILD_DIR = path.join(process.cwd(), 'build')
@@ -10,9 +9,8 @@ const BUILD_DIR = path.join(process.cwd(), 'build')
 const app = express()
 
 app.use(compression())
-// app.use(helmet())
 
-// // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
+// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable('x-powered-by')
 
 // Remix fingerprints its assets so we can cache forever.
@@ -28,7 +26,7 @@ app.use(express.static('public', { maxAge: '1h' }))
 app.use(morgan('tiny'))
 
 app.all(
-  '*', 
+  '*',
   process.env.NODE_ENV === 'development'
     ? (req, res, next) => {
         purgeRequireCache()
