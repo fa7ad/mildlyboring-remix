@@ -19,7 +19,7 @@ export default async function renderMarkdown(markdownText: string) {
     .use(remarkGfm)
     .use(remarkMath)
     .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeKatex, { displayMode: false })
+    .use(rehypeKatex)
     .use(rehypeRaw)
     .use(rehypePrism, { showLineNumbers: true, ignoreMissing: true })
     .use(rehypeSanitize, await sanitize())

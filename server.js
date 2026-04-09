@@ -26,7 +26,7 @@ app.use(express.static('public', { maxAge: '1h' }))
 app.use(morgan('tiny'))
 
 app.all(
-  '*',
+  '/*splat',
   process.env.NODE_ENV === 'development'
     ? (req, res, next) => {
         purgeRequireCache()

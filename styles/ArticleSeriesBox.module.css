@@ -1,3 +1,4 @@
+@reference "./tailwind.css";
 .seriesListing {
   @apply flex flex-col justify-center max-w-sm;
   @apply md:border-2 md:border-dashed md:border-neutral-300 md:dark:border-neutral-800;

@@ -1,5 +1,11 @@
 /// <reference types="prismjs" />
 
+// CSS module files imported as URL strings (stylesheet href)
+declare module '*.module.css' {
+  const url: string
+  export default url
+}
+
 type Maybe<T> = T | undefined
 type Nullable<T> = T | null
 
@@ -53,3 +59,6 @@ type ContentMetadata = {
 }
 
 type ContentType = Exclude<keyof ContentMetadata, 'series'>
+
+// Alias kept for backward compat in components
+type Post = Entry

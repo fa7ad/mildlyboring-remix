@@ -1,10 +1,10 @@
-import clsx from 'clsx'
-import { Link } from '@remix-run/react'
 import type { LinksFunction } from '@remix-run/node'
+import { Link } from '@remix-run/react'
+import clsx from 'clsx'
 import stylesheetUrl from '~/utils/stylesheetUrl'
 
-import styles from '~/styles/ArticleSeriesBox.module.mjs'
 import stylesUrl from '~/styles/ArticleSeriesBox.module.css'
+import styles from '~/styles/ArticleSeriesBox.module.mjs'
 
 export const links: LinksFunction = () => [stylesheetUrl(stylesUrl)]
 

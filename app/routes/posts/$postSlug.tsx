@@ -51,23 +51,18 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export const meta: MetaFunction = ({
-  data,
-  params
-}: {
-  data: Maybe<LoaderData>
-  params: Params
-}) => {
+export const meta: MetaFunction = ({ data, params }: any) => {
+  const { post, globalEnv: env, ogImages } = (data ?? {}) as Partial<LoaderData>
   const ogMeta = getSeoMeta({
-    title: data?.post?.title || 'A Blog Post',
-    description: data?.post?.excerpt,
-    canonical: `${data?.globalEnv.PUBLIC_URL}/posts/${params.postSlug}`,
+    title: post?.title || 'A Blog Post',
+    description: post?.excerpt,
+    canonical: `${env?.PUBLIC_URL}/posts/${params.postSlug}`,
     openGraph: {
       article: {
-        publishedTime: data?.post?.published || undefined,
+        publishedTime: post?.published || undefined,
         authors: ['Fahad Hossain']
       },
-      images: data?.ogImages
+      images: ogImages
     }
   })
 
@@ -99,7 +94,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function BlogPostFull() {
   const dispatch = useAppDispatch()
-  const comments = useRef(null)
+  const comments = useRef<HTMLElement>(null)
   const commentsVisible = useOnScreen(comments, '-10px')
   const data = useLoaderData<LoaderData>()
   const { post, globalEnv } = data

@@ -1,14 +1,13 @@
 import fs from 'fs'
+import got from 'got'
 import * as path from 'path'
-import { map } from 'ramda'
 import { getPlaiceholder } from 'plaiceholder'
+import { map } from 'ramda'
 
 import globalEnv from '~/config.server'
 import { renderExcerpt } from './markdown.server'
 
 import contentMetadata from './content.server'
-
-const importGot = import('got').then(m => m.default)
 
 export const mapPromise = <T, U>(
   fn: (val: T) => Promise<U>,
@@ -31,10 +30,9 @@ export const getImages = async <T extends { cover: Maybe<string> }>(
     return { cover, placeholderImage, ogCover: undefined }
   }
   const coverUrl = `${globalEnv.PUBLIC_URL}${cover}`
+  const coverBuf = await got(coverUrl).buffer()
 
-  const { base64 } = await getPlaiceholder(
-    await (await importGot)(coverUrl).buffer()
-  )
+  const { base64 } = await getPlaiceholder(Buffer.copyBytesFrom(coverBuf))
   placeholderImage = base64
   const ogCover = `${globalEnv.PUBLIC_URL}/og${cover}`
   return { cover: coverUrl, placeholderImage, ogCover }

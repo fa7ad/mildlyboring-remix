@@ -40,20 +40,15 @@ export const links: LinksFunction = () => {
   return [...seoLinks, KATEX_CSS, ...pageLinks()]
 }
 
-export const meta: MetaFunction = ({
-  data,
-  params
-}: {
-  data: Maybe<LoaderData>
-  params: Params
-}) => {
+export const meta: MetaFunction = ({ data, params }: any) => {
+  const { page, globalEnv: env } = (data ?? {}) as Partial<LoaderData>
   const ogMeta = getSeoMeta({
-    title: data?.page?.title || params.pageSlug,
-    description: data?.page?.excerpt,
-    canonical: `${data?.globalEnv.PUBLIC_URL}/${params.pageSlug}`,
+    title: page?.title || params.pageSlug,
+    description: page?.excerpt,
+    canonical: `${env?.PUBLIC_URL}/${params.pageSlug}`,
     openGraph: {
       article: {
-        publishedTime: data?.page?.published || undefined,
+        publishedTime: page?.published || undefined,
         authors: ['Fahad Hossain']
       }
     }

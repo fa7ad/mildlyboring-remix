@@ -1,3 +1,4 @@
+@reference "./tailwind.css";
 /* Header */
 .header {
   @apply fixed w-full z-10 top-0;

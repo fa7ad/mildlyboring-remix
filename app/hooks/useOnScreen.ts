@@ -2,7 +2,7 @@ import type React from 'react'
 import { useState, useEffect } from 'react'
 
 export default function useOnScreen<T extends HTMLElement>(
-  ref: React.RefObject<T>,
+  ref: React.RefObject<T | null>,
   rootMargin = '0px',
   oneOff = true
 ) {

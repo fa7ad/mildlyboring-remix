@@ -1,3 +1,4 @@
+@reference "./tailwind.css";
 .root {
   @apply block my-4 bg-white dark:bg-neutral-800 rounded shadow p-4 pt-2;
 }

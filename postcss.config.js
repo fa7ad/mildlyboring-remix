@@ -4,9 +4,7 @@ const prettier = require('prettier')
 
 module.exports = {
   plugins: {
-    'tailwindcss/nesting': {},
-    tailwindcss: { config: './tailwind.config.js' },
-    autoprefixer: {},
+    '@tailwindcss/postcss': {},
     'postcss-modules': {
       globalModulePaths: [/\.global\.css$/],
       getJSON: async (cssFilename, json, outputFilename) => {
@@ -17,7 +15,7 @@ module.exports = {
 
         const prettierOpts = await prettier.resolveConfig(outputFilename)
 
-        const formattedContent = prettier.format(rawContent, {
+        const formattedContent = await prettier.format(rawContent, {
           ...prettierOpts,
           parser: 'typescript'
         })
